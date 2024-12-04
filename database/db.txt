@@ -1,0 +1,12 @@
+Company:
+	employees:
+		- id [Primary Key, Auto Increment]
+		- name
+		- address
+		- email [Unique]
+		- phone [Unique]
+		- salary
+		- department_id [Foreign Key]
+	departments:
+		- id [Primary Key, Auto Increment]
+		- department [Unique]
