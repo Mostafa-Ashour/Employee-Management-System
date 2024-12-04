@@ -25,7 +25,7 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?= url("department/add.php") ?>">Add Department</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="<?= url("department/index.php") ?>">List All Departments</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
