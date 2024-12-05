@@ -25,9 +25,9 @@ if (isset($_POST['submit'])) {
 <div class="container col-6 mt-5">
     <h1 class="text-center text-light">Add New Department</h1>
     <!-- PHP Conditions After Submiting The Form To Output The Message Either Success Or Failing -->
-    <?php if (!empty($success_message) && empty($error_message)): ?>
+    <?php if (!empty($success_message)): ?>
         <div class="alert alert-success pt-3 pb-3"><?= $success_message ?></div>
-    <?php elseif (!empty($error_message)  && empty($success_message)): ?>
+    <?php elseif (!empty($error_message)): ?>
         <div class="alert alert-danger pt-3 pb-3"><?= $error_message ?></div>
     <?php endif; ?>
     <!-- Form To Add New Department -->
@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
             <form method="POST">
                 <div class="mb-3">
                     <label for="department" class="form-label">Department Name:</label>
-                    <input type="text" name="department" id="department" class="form-control">
+                    <input type="text" placeholder="Department Name" name="department" id="department" class="form-control">
                 </div>
                 <div class="text-center">
                     <button class="btn btn-primary" name="submit">Submit</button>

@@ -14,7 +14,7 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="<?= url("index.php") ?>">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
@@ -38,7 +38,7 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?= url("employees/add.php") ?>">Add Employee</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="<?= url("employees/index.php") ?>">List All Employees</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
