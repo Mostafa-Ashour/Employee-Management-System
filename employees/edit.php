@@ -18,6 +18,7 @@ if (isset($_GET['edit'])) {
     $select_query = "SELECT * FROM `employees` WHERE `id`=$id;";
     $select = mysqli_query($con, $select_query);
     $row = mysqli_fetch_assoc($select);
+
     // Update Employee Data
     if (isset($_POST['update'])) {
         $name = $_POST['name'];

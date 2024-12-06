@@ -31,6 +31,9 @@ if (isset($_POST['submit'])) {
         } elseif (str_contains($error_message, "employees_phone_uq")) {
             $error_message = "The Phone Number $phone Already In Use.";
         }
+        // Re-Fetch Employee Data In Case Of Error. 
+        $all_departments = "SELECT * FROM `departments`;";
+        $departments = mysqli_query($con, $all_departments);
     }
 }
 
