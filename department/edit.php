@@ -7,36 +7,39 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
+function fetch_department_data($id, $con)
+{
+    $select_query = "SELECT * FROM `departments` WHERE `id`=$id;";
+    $select = mysqli_query($con, $select_query);
+    $row = mysqli_fetch_assoc($select);
+    return $row;
+}
+
 // Update Department
 $error_message = '';
 $no_change_message = '';
 if (isset($_GET['edit'])) {
     // Get Department Data To Output It, To Be Edited.
     $id = $_GET['edit'];
-    $select_query = "SELECT * FROM `departments` WHERE `id`=$id;";
-    $select = mysqli_query($con, $select_query);
-    $row = mysqli_fetch_assoc($select);
+    $row = fetch_department_data($id, $con);
     // Update Department Data
     if (isset($_POST['update'])) {
         $department_name = $_POST['department'];
-        // $update_query = "UPDATE `departments` SET `department`='$department_name' WHERE `id`=$id;";
 
         $update_fields = [];
         if ($department_name !== $row['department']) {
-            $update_fields[] = "`department`=$department_name";
+            $update_fields[] = "`department`='$department_name'";
         }
 
         if (!empty($update_fields)) {
-            $update_query = "UPDATE `departments` SET " . implode(", ", $update_fields) . " WHERE `id`=$id";
+            $update_query = "UPDATE `departments`  SET  " . implode(", ", $update_fields) . " WHERE `id`=$id";
             try {
                 $update = mysqli_query($con, $update_query);
                 path("department/index.php");
             } catch (Exception $e) {
                 $error_message = "$department_name Department Already Added.";
                 // Re-Fetch Department Data In Case Of Failure
-                $select_query = "SELECT * FROM `departments` WHERE `id`=$id;";
-                $select = mysqli_query($con, $select_query);
-                $department_name = mysqli_fetch_assoc($select)['department'];
+                $row = fetch_department_data($id, $con);
             }
         } else {
             $no_change_message = "No Changes Where Made.";

@@ -6,6 +6,14 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
+function fetch_employee_data($id, $con)
+{
+    $select_query = "SELECT * FROM `employees` WHERE `id`=$id;";
+    $select = mysqli_query($con, $select_query);
+    $row = mysqli_fetch_assoc($select);
+    return $row;
+}
+
 $all_departments = "SELECT * FROM `departments`;";
 $departments = mysqli_query($con, $all_departments);
 
@@ -15,9 +23,7 @@ $no_change_message = '';
 if (isset($_GET['edit'])) {
     $id = $_GET['edit'];
     // Get Employee Data To Output It, To Be Edited.
-    $select_query = "SELECT * FROM `employees` WHERE `id`=$id;";
-    $select = mysqli_query($con, $select_query);
-    $row = mysqli_fetch_assoc($select);
+    $row = fetch_employee_data($id, $con);
 
     // Update Employee Data
     if (isset($_POST['update'])) {
@@ -56,9 +62,7 @@ if (isset($_GET['edit'])) {
                     $error_message = "The Phone Number $phone Already In Use.";
                 }
                 // Re-Fetch Employee Data In Case Of Error. 
-                $select_query = "SELECT * FROM `employees` WHERE `id`=$id;";
-                $select = mysqli_query($con, $select_query);
-                $row = mysqli_fetch_assoc($select);
+                $row = fetch_employee_data($id, $con);
             }
         } else {
             $no_change_message = "No Changes Where Made.";
