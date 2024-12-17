@@ -35,3 +35,28 @@ function fetch_employee_data($id, $con)
     $row = mysqli_fetch_assoc($select);
     return $row;
 }
+
+function filter_string($input_value)
+{
+    $input_value = trim($input_value);
+    $input_value = strip_tags($input_value);
+    $input_value = htmlspecialchars($input_value);
+    $input_value = stripslashes($input_value);
+
+    return $input_value;
+}
+
+function string_validation($input_value, $min)
+{
+    $is_empty = empty($input_value);
+    $is_less = (strlen($input_value) < $min);
+    return ($is_empty || $is_less ? true : false);
+}
+
+function image_validation($image_name, $image_size, $limit_size)
+{
+    $is_empty = empty($image_name);
+    $size = ((int)$image_size / 1024) / 1024;
+    $is_bigger = ($size > $limit_size);
+    return ($is_bigger || $is_empty ? true : false);
+}

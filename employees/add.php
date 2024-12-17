@@ -1,6 +1,7 @@
 <?php
 // Core
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 
 // UI
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
@@ -12,37 +13,59 @@ $departments = fetch_departments($con);
 
 $success_message = '';
 $error_message = '';
+$errors = [];
 
 if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $salary = $_POST['salary'];
-    $department_id = $_POST['department'];
+    // Get Data From Add Post Request, Then Filter Them.
+    $name = filter_string($_POST['name']);
+    $email = filter_string($_POST['email']);
+    $phone = filter_string($_POST['phone']);
+    $salary = filter_string($_POST['salary']);
+    $department_id = filter_string($_POST['department']);
 
-    // print_r($_FILES['image']) . "<br>";
-
+    // Setting Image Name, And Be Ready For Moving To Uploads DIR 
     $img_name = rand(1, 10000) . "_" . time() . "_" . $_FILES['image']['name'];
     $img_tmp_name = $_FILES['image']['tmp_name'];
     $location = "./uploads/" . $img_name;
 
-    move_uploaded_file($img_tmp_name, $location);
+    // Validate Empty and Minimum Size Conditions On Data
+    if (string_validation($name, 8)) {
+        $errors[] = "Employee Name Is Required And It Must Be At Least 8 Characters.";
+    }
+    if (string_validation($email, 2)) {
+        $errors[] = "Employee Email Is Required.";
+    }
+    if (string_validation($phone, 11)) {
+        $errors[] = "Employee Phone Is Required.";
+    }
+    if (string_validation($salary, 1)) {
+        $errors[] = "Employee Salary Is Required.";
+    }
+    if (image_validation($_FILES['image']['name'], $_FILES['image']['name'], 3)) {
+        $errors[] = "Image Is Required And Must Be Less Than 3MB.";
+    }
 
-    // echo "{$img_name}<br>{$img_tmp_name}<br>{$location}<br>";
-
-    $insert_query = "INSERT INTO `employees` VALUES (NULL, '$name', '$email', '$phone', $salary, '$img_name' , $department_id)";
-    try {
-        $insert = mysqli_query($con, $insert_query);
-        $success_message = "$name Added Successfully.";
-    } catch (Exception $e) {
-        $error_message = $e->getMessage();
-        if (str_contains($error_message, "employees_email_uq")) {
-            $error_message = "The Email Address $email Already In Use.";
-        } elseif (str_contains($error_message, "employees_phone_uq")) {
-            $error_message = "The Phone Number $phone Already In Use.";
+    // Check Size Of Errors Array, 
+    // If Empty ==> Continue To Insert New Employee Data, Then If Insert Query Is A Success Move Uploaded Image [If Exist] To Uploads DIR.
+    // Else ==> Display Errors Array For Data Modification. 
+    if (empty($errors)) {
+        // New Employee Data Insertion
+        $insert_query = "INSERT INTO `employees` VALUES (NULL, '$name', '$email', '$phone', $salary, '$img_name' , $department_id)";
+        try {
+            $insert = mysqli_query($con, $insert_query);
+            $success_message = "$name Added Successfully.";
+            // Check If There Is An Image Uploaded Before Moving To Uploads DIR.
+            move_uploaded_file($img_tmp_name, $location);
+        } catch (Exception $e) {
+            $error_message = $e->getMessage();
+            if (str_contains($error_message, "employees_email_uq")) {
+                $error_message = "The Email Address $email Already In Use.";
+            } elseif (str_contains($error_message, "employees_phone_uq")) {
+                $error_message = "The Phone Number $phone Already In Use.";
+            }
+            // Re-Fetch Employee Data In Case Of Error. 
+            $departments = fetch_departments($con);
         }
-        // Re-Fetch Employee Data In Case Of Error. 
-        $departments = fetch_departments($con);
     }
 }
 
@@ -50,6 +73,16 @@ if (isset($_POST['submit'])) {
 
 <div class="container col-6 mt-5">
     <h1 class="text-center text-light">Add New Employee</h1>
+    <!-- Displaying Errors In Errors Array If Exist -->
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <ul>
+                <?php foreach ($errors as $err): ?>
+                    <li><?= $err ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
     <!-- PHP Conditions After Submiting The Form To Output The Message Either Success Or Failing -->
     <?php if (!empty($success_message)): ?>
         <div class="alert alert-success pt-3 pb-3"><?= $success_message ?></div>

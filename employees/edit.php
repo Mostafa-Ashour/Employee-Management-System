@@ -11,6 +11,8 @@ $departments = fetch_departments($con);
 
 $error_message = '';
 $no_change_message = '';
+$errors = [];
+
 if (isset($_GET['edit'])) {
     $id = $_GET['edit'];
     // Get Employee Data To Output It, To Be Edited.
@@ -18,11 +20,34 @@ if (isset($_GET['edit'])) {
 
     // Update Employee Data
     if (isset($_POST['update'])) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $salary = $_POST['salary'];
-        $department_id = $_POST['department'];
+        // Get Data From Update Post Request, Then Filter Them.
+        $name = filter_string($_POST['name']);
+        $email = filter_string($_POST['email']);
+        $phone = filter_string($_POST['phone']);
+        $salary = filter_string($_POST['salary']);
+        $department_id = filter_string($_POST['department']);
+
+        // Setting Image Name, And Be Ready For Moving To Uploads DIR 
+        $img_name = rand(1, 10000) . "_" . time() . "_" . $_FILES['image']['name'];
+        $img_tmp_name = $_FILES['image']['tmp_name'];
+        $location = "./uploads/" . $img_name;
+
+        // Validate Empty and Minimum Size Conditions On Data
+        if (string_validation($name, 8)) {
+            $errors[] = "Employee Name Is Required And It Must Be At Least 8 Characters.";
+        }
+        if (string_validation($email, 2)) {
+            $errors[] = "Employee Email Is Required.";
+        }
+        if (string_validation($phone, 11)) {
+            $errors[] = "Employee Phone Is Required.";
+        }
+        if (string_validation($salary, 1)) {
+            $errors[] = "Employee Salary Is Required.";
+        }
+        // if (image_validation($_FILES['image']['name'], $_FILES['image']['name'], 3)) {
+        //     $errors[] = "Image Is Required And Must Be Less Than 3MB.";
+        // }
 
         // Check Changed Data
         $update_fields = [];
@@ -40,33 +65,34 @@ if (isset($_GET['edit'])) {
         }
         if (!empty($_FILES['image']['name'])) {
             // print_r($_FILES['image']) . "<br>";
-            $img_name = rand(1, 10000) . "_" . time() . "_" . $_FILES['image']['name'];
-            $img_tmp_name = $_FILES['image']['tmp_name'];
-            $location = "./uploads/" . $img_name;
             $update_fields[] = "`image`='$img_name'";
         }
         if ($row['department_id'] != $department_id) {
             $update_fields[] = "`department_id`=$department_id";
         }
 
-        if (!empty($update_fields)) {
-            $update_query = "UPDATE `employees` SET " . implode(", ", $update_fields) . " WHERE `id`=$id;";
-            try {
-                $update = mysqli_query($con, $update_query);
-                unlink("./uploads/" . $row['image']);
-                move_uploaded_file($img_tmp_name, $location);
-                path("employees/index.php");
-            } catch (Exception $e) {
-                if (str_contains($e->getMessage(), "employees_email_uq")) {
-                    $error_message = "The Email Address $email Already In Use.";
-                } elseif (str_contains($e->getMessage(), "employees_phone_uq")) {
-                    $error_message = "The Phone Number $phone Already In Use.";
+        if (empty($errors)) {
+            if (!empty($update_fields)) {
+                $update_query = "UPDATE `employees` SET " . implode(", ", $update_fields) . " WHERE `id`=$id;";
+                try {
+                    $update = mysqli_query($con, $update_query);
+                    if (in_array("`image`='$img_name'", $update_fields)) {
+                        unlink("./uploads/" . $row['image']);
+                        move_uploaded_file($img_tmp_name, $location);
+                    }
+                    path("employees/index.php");
+                } catch (Exception $e) {
+                    if (str_contains($e->getMessage(), "employees_email_uq")) {
+                        $error_message = "The Email Address $email Already In Use.";
+                    } elseif (str_contains($e->getMessage(), "employees_phone_uq")) {
+                        $error_message = "The Phone Number $phone Already In Use.";
+                    }
+                    // Re-Fetch Employee Data In Case Of Error. 
+                    $row = fetch_employee_data($id, $con);
                 }
-                // Re-Fetch Employee Data In Case Of Error. 
-                $row = fetch_employee_data($id, $con);
+            } else {
+                $no_change_message = "No Changes Where Made.";
             }
-        } else {
-            $no_change_message = "No Changes Where Made.";
         }
     }
 }
@@ -75,6 +101,16 @@ if (isset($_GET['edit'])) {
 
 <div class="container col-6 mt-5">
     <h1 class="text-center text-light">Edit Employee</h1>
+    <!-- Displaying Errors In Errors Array If Exist -->
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <ul>
+                <?php foreach ($errors as $err): ?>
+                    <li><?= $err ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
     <!-- Show No Change Message or Error Message, If There is any -->
     <?php if (!empty($no_change_message)): ?>
         <div class="alert alert-success pt-3 pb-3"><?= $no_change_message ?></div>
