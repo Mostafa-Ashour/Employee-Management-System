@@ -7,7 +7,7 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 <header>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Company</a>
+            <a class="navbar-brand" href="<?= url("index.php") ?>">Company</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

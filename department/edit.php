@@ -7,14 +7,6 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
-function fetch_department_data($id, $con)
-{
-    $select_query = "SELECT * FROM `departments` WHERE `id`=$id;";
-    $select = mysqli_query($con, $select_query);
-    $row = mysqli_fetch_assoc($select);
-    return $row;
-}
-
 // Update Department
 $error_message = '';
 $no_change_message = '';
