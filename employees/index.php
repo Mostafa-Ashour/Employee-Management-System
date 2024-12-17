@@ -10,10 +10,15 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 // Deleting A Employee
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
+    // Get Image Name For Deletion Process.
+    $select_query = "SELECT `image` FROM `employees` WHERE `id`=$id;";
+    $select = mysqli_query($con, $select_query);
+    $row = mysqli_fetch_assoc($select);
     $delete_query = "DELETE FROM `employees` WHERE `id` = $id;";
     $delete = mysqli_query($con, $delete_query);
     if ($delete) {
-        path("department/index.php");
+        unlink("./uploads/" . $row['image']);
+        path("employees/index.php");
     }
 }
 
@@ -34,6 +39,7 @@ $select = mysqli_query($con, $select_query);
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -46,6 +52,7 @@ $select = mysqli_query($con, $select_query);
                     <?php foreach ($select as $index => $emp): ?>
                         <tr>
                             <td><?= ($index + 1) ?></td>
+                            <td><img width="80" src="./uploads/<?= $emp['image'] ?>" alt=""></td>
                             <td><?= $emp['name'] ?></td>
                             <td><?= $emp['email'] ?></td>
                             <td><?= $emp['phone'] ?></td>

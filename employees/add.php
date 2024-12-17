@@ -8,8 +8,7 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
 // Add Employee
 
-$all_departments = "SELECT * FROM `departments`;";
-$departments = mysqli_query($con, $all_departments);
+$departments = fetch_departments($con);
 
 $success_message = '';
 $error_message = '';
@@ -20,7 +19,18 @@ if (isset($_POST['submit'])) {
     $phone = $_POST['phone'];
     $salary = $_POST['salary'];
     $department_id = $_POST['department'];
-    $insert_query = "INSERT INTO `employees` VALUES (NULL, '$name', '$email', '$phone', $salary, $department_id)";
+
+    // print_r($_FILES['image']) . "<br>";
+
+    $img_name = rand(1, 10000) . "_" . time() . "_" . $_FILES['image']['name'];
+    $img_tmp_name = $_FILES['image']['tmp_name'];
+    $location = "./uploads/" . $img_name;
+
+    move_uploaded_file($img_tmp_name, $location);
+
+    // echo "{$img_name}<br>{$img_tmp_name}<br>{$location}<br>";
+
+    $insert_query = "INSERT INTO `employees` VALUES (NULL, '$name', '$email', '$phone', $salary, '$img_name' , $department_id)";
     try {
         $insert = mysqli_query($con, $insert_query);
         $success_message = "$name Added Successfully.";
@@ -32,8 +42,7 @@ if (isset($_POST['submit'])) {
             $error_message = "The Phone Number $phone Already In Use.";
         }
         // Re-Fetch Employee Data In Case Of Error. 
-        $all_departments = "SELECT * FROM `departments`;";
-        $departments = mysqli_query($con, $all_departments);
+        $departments = fetch_departments($con);
     }
 }
 
@@ -50,7 +59,7 @@ if (isset($_POST['submit'])) {
     <!-- Form To Add New Department -->
     <div class="card bg-dark text-light">
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
                     <input type="text" placeholder="Name" name="name" id="name" class="form-control">
@@ -74,6 +83,10 @@ if (isset($_POST['submit'])) {
                             <option value="<?= $dep['id'] ?>"><?= $dep['department'] ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" id="image" name="image" class="form-control">
                 </div>
                 <div class="text-center">
                     <button class="btn btn-primary" name="submit">Submit</button>
