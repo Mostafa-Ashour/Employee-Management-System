@@ -18,15 +18,16 @@ if (isset($_GET['delete'])) {
 }
 
 
-$select_query = "SELECT * FROM `departments`";
-$select = mysqli_query($con, $select_query);
+$select = fetch_departments($con);
 ?>
 
 <div class="container col-6 mt-5">
     <h1 class="text-center text-light">All Departments</h1>
+    <!-- Display Success Message If Exist -->
     <?php if (!empty($success_message)): ?>
         <div class="alert alert-success"><?= $success_message ?></div>
     <?php endif; ?>
+    <!-- Form For Listing Existing Departments -->
     <div class="card bg-dark text-light">
         <div class="card-body table-responsive">
             <table class="table table-dark">

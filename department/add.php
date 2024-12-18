@@ -12,12 +12,16 @@ $error_message = '';
 $errors = [];
 
 if (isset($_POST['submit'])) {
+    // Filter And Validate New Department Data. 
     $department = filter_string($_POST['department']);
 
-    if (string_validation($department_name, 2)) {
+    if (string_validation($department, 2)) {
         $errors[] = "Department Name Is Required and It Must Be At Least 2 Characters.";
     }
 
+    // Check If Errors Array Is Empty.
+    // If True ==> Continue The Insertion Process.
+    // Else ==> Skip The Insertion Process And Display The Contents Of Errors Array.
     if (empty($errors)) {
         $insert_query = "INSERT INTO `departments` VALUES (NULL, '$department')";
         try {
@@ -43,7 +47,7 @@ if (isset($_POST['submit'])) {
             </ul>
         </div>
     <?php endif; ?>
-    <!-- PHP Conditions After Submiting The Form To Output The Message Either Success Or Failing -->
+    <!-- Display No Change Message or Error Message If Exist -->
     <?php if (!empty($success_message)): ?>
         <div class="alert alert-success pt-3 pb-3"><?= $success_message ?></div>
     <?php elseif (!empty($error_message)): ?>

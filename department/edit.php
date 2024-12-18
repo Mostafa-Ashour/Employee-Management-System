@@ -13,22 +13,28 @@ $no_change_message = '';
 $errors = [];
 
 if (isset($_GET['edit'])) {
-    // Get Department Data To Output It, To Be Edited.
+    // Get Department Data For Displaying, To Be Edited.
     $id = $_GET['edit'];
     $row = fetch_department_data($id, $con);
+
     // Update Department Data
     if (isset($_POST['update'])) {
+        // Filter And Validate Updated Department Data.
         $department_name = filter_string($_POST['department']);
 
         if (string_validation($department_name, 2)) {
             $errors[] = "Department Name Is Required and It Must Be At Least 2 Characters.";
         }
 
+        // Check If Department Name Has Changed
         $update_fields = [];
         if ($department_name !== $row['department']) {
             $update_fields[] = "`department`='$department_name'";
         }
 
+        // Check If Errors Array Is Empty.
+        // If True ==> Continue The Update Process
+        // Else ==> Skip The Update Process And Display The Contents of Errors Array
         if (empty($errors)) {
             if (!empty($update_fields)) {
                 $update_query = "UPDATE `departments`  SET  " . implode(", ", $update_fields) . " WHERE `id`=$id";
@@ -61,6 +67,7 @@ if (isset($_GET['edit'])) {
             </ul>
         </div>
     <?php endif; ?>
+    <!-- Display No Change Message or Error Message If Exist -->
     <?php if (!empty($no_change_message)): ?>
         <div class="alert alert-success pt-3 pb-3"><?= $no_change_message ?></div>
     <?php elseif (!empty($error_message)): ?>

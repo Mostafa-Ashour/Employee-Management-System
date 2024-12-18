@@ -45,9 +45,9 @@ if (isset($_GET['edit'])) {
         if (string_validation($salary, 1)) {
             $errors[] = "Employee Salary Is Required.";
         }
-        // if (image_validation($_FILES['image']['name'], $_FILES['image']['name'], 3)) {
-        //     $errors[] = "Image Is Required And Must Be Less Than 3MB.";
-        // }
+        if (image_validation($_FILES['image']['name'], $_FILES['image']['size'], 3) === true && !empty($_FILES['image']['name']) === true) {
+            $errors[] = "Image Is Required And Must Be Less Than 3MB.";
+        }
 
         // Check Changed Data
         $update_fields = [];
@@ -71,12 +71,16 @@ if (isset($_GET['edit'])) {
             $update_fields[] = "`department_id`=$department_id";
         }
 
+        // Check If Errors Array Is Empty
+        // If True ==> Continue The Update Process
+        // Else ==> Skip The Update Process, And Display Contents Of Errors Array
         if (empty($errors)) {
             if (!empty($update_fields)) {
                 $update_query = "UPDATE `employees` SET " . implode(", ", $update_fields) . " WHERE `id`=$id;";
                 try {
                     $update = mysqli_query($con, $update_query);
                     if (in_array("`image`='$img_name'", $update_fields)) {
+                        echo "Image Change";
                         unlink("./uploads/" . $row['image']);
                         move_uploaded_file($img_tmp_name, $location);
                     }
@@ -151,7 +155,7 @@ if (isset($_GET['edit'])) {
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="file" id="image" name="image" class="form-control mb-2">
+                    <input type="file" id="image" name="image" class="form-control mb-2" value="<?= $row['image'] ?>">
                     <img width="200" src="./uploads/<?= $row['image'] ?>" alt="">
                 </div>
                 <div class="text-center">

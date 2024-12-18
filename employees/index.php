@@ -14,6 +14,9 @@ if (isset($_GET['delete'])) {
     $select_query = "SELECT `image` FROM `employees` WHERE `id`=$id;";
     $select = mysqli_query($con, $select_query);
     $row = mysqli_fetch_assoc($select);
+
+    // Process Deletion Process
+    // If Deletion Query Is A Success ==> Remove Employee's Related Image From uploads DIR And Change Path To employees/index.php
     $delete_query = "DELETE FROM `employees` WHERE `id` = $id;";
     $delete = mysqli_query($con, $delete_query);
     if ($delete) {
@@ -22,7 +25,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-
+// Fetch Data From employees_departments View
 $select_query = "SELECT * FROM `employees_departments`";
 $select = mysqli_query($con, $select_query);
 
@@ -30,9 +33,11 @@ $select = mysqli_query($con, $select_query);
 
 <div class="container col-10 mt-5">
     <h1 class="text-center text-light">All Departments</h1>
+    <!-- Display Success Message If Exist -->
     <?php if (!empty($success_message)): ?>
         <div class="alert alert-success"><?= $success_message ?></div>
     <?php endif; ?>
+    <!-- Display Existing Employees Form -->
     <div class="card bg-dark text-light">
         <div class="card-body table-responsive">
             <table class="table table-dark">
