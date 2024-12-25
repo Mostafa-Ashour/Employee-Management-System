@@ -3,6 +3,7 @@
 ## Overview
 
 The Employee Management System is a web application designed to manage employee records, departmental information, and user authentication. Built with PHP, HTML, Bootstrap, and MySQL, it provides a user-friendly interface for administrators to efficiently handle organizational data.
+---
 
 ## Features
 
@@ -10,12 +11,14 @@ The Employee Management System is a web application designed to manage employee 
 - **Employee Management:** Add, edit, view, and delete employee records.
 - **Department Management:** Manage departmental information.
 - **Responsive Design:** Utilizes Bootstrap for mobile-friendly interfaces.
+---
 
 ## Technologies Used
 
 - **Frontend:** HTML, Bootstrap
 - **Backend:** PHP
 - **Database:** MySQL
+---
 
 ## Installation
 
@@ -39,6 +42,7 @@ The Employee Management System is a web application designed to manage employee 
    - Access the application in your browser via:
       ```bash
       http://localhost/Final-Demo
+---
 
 ## How to Use
 
@@ -55,6 +59,7 @@ The Employee Management System is a web application designed to manage employee 
 
 4. **Manage Departments:**
    - Add, edit, delete, or view department details.
+---
 
 ## Functionalities Overview
 
@@ -77,17 +82,56 @@ The Employee Management System is a web application designed to manage employee 
    - Edit and update existing department details.
    - Delete departments no longer relevant to the organization.
    - View a list of all departments.
+---
 
-## Directory Structure
-   Final-Demo/ ├── app/ # Application logic and configuration files ├── assets/ # CSS, JS, and static assets ├── database/ # SQL database setup files ├── department/ #          
-   Department functionalities ├── employees/ # Employee functionalities ├── shared/ # Common files (e.g., header, footer) ├── index.php # Home page ├── login.php # Login page 
-   └── README.md # Project documentation
+### Folder Details
+
+#### `app/`
+Contains the core application logic and configuration files necessary for initializing and managing the project.
+
+#### `assets/`
+Houses static assets such as:
+- CSS for styling
+- JavaScript files for client-side functionality
+- Images and other media
+
+#### `database/`
+Includes all SQL files and configurations for setting up the project database schema and initializing data.
+
+#### `department/`
+Manages the functionalities related to departments in the application. 
+Example functionalities:
+- Adding or updating departments
+- Fetching department data
+
+#### `employees/`
+Handles employee-related features, such as:
+- Employee registration
+- Viewing and updating employee details
+
+#### `shared/`
+Stores shared components, such as:
+- `header.php` - For consistent navigation headers across pages
+- `footer.php` - For page footers
+
+#### `index.php`
+The main entry point for the application, serving as the homepage.
+
+#### `login.php`
+Manages user authentication, including:
+- Login forms
+- Session handling
+
+#### `README.md`
+Documentation for the project, including setup and usage instructions.
+---
 
 ## Technologies Used
 
 - Frontend: HTML, Bootstrap
 - Backend: PHP
 - Database: MySQL
+---
 
 ## Contributing
 - Contributions are welcome! To contribute:
