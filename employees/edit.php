@@ -42,9 +42,6 @@ if (isset($_GET['edit'])) {
         if (string_validation($email, 2)) {
             $errors[] = "Employee Email Is Required.";
         }
-        if (string_validation($_POST['password'], 8)) {
-            $errors[] = "Employee Password Is Required And It Must Be At Least 8 Characters.";
-        }
         if (string_validation($phone, 11)) {
             $errors[] = "Employee Phone Is Required.";
         }
@@ -65,6 +62,9 @@ if (isset($_GET['edit'])) {
         }
         $password_verify = password_verify($password, $row['password']);
         if (!$password_verify) {
+            if (string_validation($_POST['password'], 8)) {
+                $errors[] = "Employee Password Is Required And It Must Be At Least 8 Characters.";
+            }
             $update_fields[] = "`password`='$password'";
         }
         if ($row['roles'] !== $role) {
