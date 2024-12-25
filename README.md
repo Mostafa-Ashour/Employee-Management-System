@@ -123,7 +123,7 @@ Manages user authentication, including:
 - Session handling
 
 #### `README.md`
-Documentation for the project, including setup and usage instructions.
+- Documentation for the project, including setup and usage instructions.
 ---
 
 ## Technologies Used
