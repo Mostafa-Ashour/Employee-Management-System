@@ -79,17 +79,9 @@ The Employee Management System is a web application designed to manage employee 
    - View a list of all departments.
 
 ## Directory Structure
-   ```graphql
-   Employee-Management-System/
-   ├── app/                # Application logic and configuration files
-   ├── assets/             # CSS, JS, and static assets
-   ├── database/           # SQL database setup files
-   ├── department/         # Department functionalities
-   ├── employees/          # Employee functionalities
-   ├── shared/             # Common files (e.g., header, footer)
-   ├── index.php           # Home page
-   ├── login.php           # Login page
-   └── README.md           # Project documentation
+   Final-Demo/ ├── app/ # Application logic and configuration files ├── assets/ # CSS, JS, and static assets ├── database/ # SQL database setup files ├── department/ #          
+   Department functionalities ├── employees/ # Employee functionalities ├── shared/ # Common files (e.g., header, footer) ├── index.php # Home page ├── login.php # Login page 
+   └── README.md # Project documentation
 
 ## Technologies Used
 
