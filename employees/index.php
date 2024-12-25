@@ -1,11 +1,11 @@
 <?php
 // Core
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/dbconfig.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/functions.php";
 
 // UI
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/head.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/navbar.php";
 
 auth(2);
 
@@ -50,6 +50,7 @@ $select = mysqli_query($con, $select_query);
                         <th>Name</th>
                         <?php if ($_SESSION['user']['role'] == 1): ?>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Phone</th>
                             <th>Salary</th>
                         <?php endif; ?>
@@ -68,6 +69,7 @@ $select = mysqli_query($con, $select_query);
                             <td><?= $emp['name'] ?></td>
                             <?php if ($_SESSION['user']['role'] == 1): ?>
                                 <td><?= $emp['email'] ?></td>
+                                <td><?= $emp['roles'] ?></td>
                                 <td><?= $emp['phone'] ?></td>
                                 <td><?= $emp['salary'] ?></td>
                             <?php endif; ?>
@@ -88,7 +90,7 @@ $select = mysqli_query($con, $select_query);
 
 <?php
 
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/scripts.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/footer.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/scripts.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/footer.php";
 
 ?>

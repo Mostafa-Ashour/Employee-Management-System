@@ -1,11 +1,11 @@
 <?php
 // Core
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/dbconfig.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/functions.php";
 
 // UI
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/head.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/navbar.php";
 
 auth();
 // Add Employee
@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
     if (string_validation($salary, 1)) {
         $errors[] = "Employee Salary Is Required.";
     }
-    if (image_validation($_FILES['image']['name'], $_FILES['image']['name'], 3)) {
+    if (image_validation($_FILES['image']['name'], $_FILES['image']['size'], 3)) {
         $errors[] = "Image Is Required And Must Be Less Than 3MB.";
     }
 
@@ -149,7 +149,7 @@ if (isset($_POST['submit'])) {
 
 <?php
 
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/scripts.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/footer.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/scripts.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/footer.php";
 
 ?>

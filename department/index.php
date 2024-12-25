@@ -1,11 +1,11 @@
 <?php
 // Core
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/dbconfig.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/functions.php";
 
 // UI
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/head.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/navbar.php";
 
 auth(2);
 
@@ -63,7 +63,7 @@ $select = fetch_departments($con);
 
 <?php
 
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/scripts.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/footer.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/scripts.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/footer.php";
 
 ?>

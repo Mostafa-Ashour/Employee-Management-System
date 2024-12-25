@@ -1,12 +1,14 @@
-Company:
+Employee Management System:
 	employees:
-		- id [Primary Key, Auto Increment]
-		- name
-		- address
-		- email [Unique]
-		- phone [Unique]
-		- salary
-		- department_id [Foreign Key]
+		- id [int, Primary Key, Auto Increment]
+		- name [Text, Not Null]
+    		- email [Text, Not Null, Unique]		
+		- password [Text, Not Null]
+		- roles [Admin, User] [int, Not Null]		
+		- phone [Text, Not Null, Unique]
+		- salary [int, Not Null]
+		- image	[Text, Not Null]
+		- department_id [int, Not Null, Foreign Key]
 	departments:
-		- id [Primary Key, Auto Increment]
-		- department [Unique]
+		- id [int, Primary Key, Auto Increment]
+		- department [Text, Unique]

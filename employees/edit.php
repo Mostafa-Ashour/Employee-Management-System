@@ -1,10 +1,10 @@
 <?php
 // Core
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/dbconfig.php";
 
 // UI
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/head.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/navbar.php";
 
 auth();
 
@@ -24,6 +24,8 @@ if (isset($_GET['edit'])) {
         // Get Data From Update Post Request, Then Filter Them.
         $name = filter_string($_POST['name']);
         $email = filter_string($_POST['email']);
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $role = ($_POST['role']);
         $phone = filter_string($_POST['phone']);
         $salary = filter_string($_POST['salary']);
         $department_id = filter_string($_POST['department']);
@@ -39,6 +41,9 @@ if (isset($_GET['edit'])) {
         }
         if (string_validation($email, 2)) {
             $errors[] = "Employee Email Is Required.";
+        }
+        if (string_validation($_POST['password'], 8)) {
+            $errors[] = "Employee Password Is Required And It Must Be At Least 8 Characters.";
         }
         if (string_validation($phone, 11)) {
             $errors[] = "Employee Phone Is Required.";
@@ -57,6 +62,13 @@ if (isset($_GET['edit'])) {
         }
         if ($row['email'] !== $email) {
             $update_fields[] = "`email`='$email'";
+        }
+        $password_verify = password_verify($password, $row['password']);
+        if (!$password_verify) {
+            $update_fields[] = "`password`='$password'";
+        }
+        if ($row['roles'] !== $role) {
+            $update_fields[] = "`roles`='$role'";
         }
         if ($row['phone'] !== $phone) {
             $update_fields[] = "`phone`='$phone'";
@@ -91,6 +103,8 @@ if (isset($_GET['edit'])) {
                         $error_message = "The Email Address $email Already In Use.";
                     } elseif (str_contains($e->getMessage(), "employees_phone_uq")) {
                         $error_message = "The Phone Number $phone Already In Use.";
+                    } else {
+                        $error_message = $e->getMessage();
                     }
                     // Re-Fetch Employee Data In Case Of Error. 
                     $row = fetch_employee_data($id, $con);
@@ -135,6 +149,22 @@ if (isset($_GET['edit'])) {
                     <input type="text" name="email" id="email" class="form-control" value="<?= $row['email'] ?>">
                 </div>
                 <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="text" name="password" id="password" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role:</label>
+                    <select name="role" id="role" class="form-select">
+                        <?php if ($row['roles'] == 1): ?>
+                            <option selected value="1">Admin</option>
+                            <option value="2">User</option>
+                        <?php else: ?>
+                            <option value="1">Admin</option>
+                            <option selected value="2">User</option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
                     <label for="phone" class="form-label">Phone:</label>
                     <input type="text" name="phone" id="phone" class="form-control" value="<?= $row['phone'] ?>">
                 </div>
@@ -169,7 +199,7 @@ if (isset($_GET['edit'])) {
 
 <?php
 
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/scripts.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/footer.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/scripts.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/footer.php";
 
 ?>
