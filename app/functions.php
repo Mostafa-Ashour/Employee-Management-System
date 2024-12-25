@@ -13,6 +13,19 @@ function path($_path = null)
     echo "<script>window.location.replace('$location')</script>";
 }
 
+function auth($num1 = null)
+{
+    if (isset($_SESSION['user'])) {
+        if ($_SESSION['user']['role'] == 1 || $_SESSION['user']['role'] == $num1) {
+            return true;
+        } else {
+            path("index.php");
+        }
+    } else {
+        path("login.php");
+    }
+}
+
 function fetch_departments($con)
 {
     $all_departments = "SELECT * FROM `departments`;";

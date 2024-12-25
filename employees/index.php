@@ -7,6 +7,8 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
+auth(2);
+
 // Deleting A Employee
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
@@ -46,11 +48,16 @@ $select = mysqli_query($con, $select_query);
                         <th>#</th>
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Salary</th>
+                        <?php if ($_SESSION['user']['role'] == 1): ?>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Salary</th>
+                        <?php endif; ?>
                         <th>Department</th>
-                        <th>Action</th>
+                        <?php if ($_SESSION['user']['role'] == 1):
+                        ?>
+                            <th>Action</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,14 +66,18 @@ $select = mysqli_query($con, $select_query);
                             <td><?= ($index + 1) ?></td>
                             <td><img width="80" src="./uploads/<?= $emp['image'] ?>" alt=""></td>
                             <td><?= $emp['name'] ?></td>
-                            <td><?= $emp['email'] ?></td>
-                            <td><?= $emp['phone'] ?></td>
-                            <td><?= $emp['salary'] ?></td>
+                            <?php if ($_SESSION['user']['role'] == 1): ?>
+                                <td><?= $emp['email'] ?></td>
+                                <td><?= $emp['phone'] ?></td>
+                                <td><?= $emp['salary'] ?></td>
+                            <?php endif; ?>
                             <td><?= $emp['department'] ?></td>
-                            <td>
-                                <a href="edit.php?edit=<?= $emp['id'] ?>" class="btn btn-warning">Edit</a>
-                                <a href="?delete=<?= $emp['id'] ?>" class="btn btn-danger">Delete</a>
-                            </td>
+                            <?php if ($_SESSION['user']['role'] == 1): ?>
+                                <td>
+                                    <a href="edit.php?edit=<?= $emp['id'] ?>" class="btn btn-warning">Edit</a>
+                                    <a href="?delete=<?= $emp['id'] ?>" class="btn btn-danger">Delete</a>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

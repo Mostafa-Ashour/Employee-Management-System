@@ -1,10 +1,13 @@
 <?php
 // Core
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
+require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 
 // UI
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
+
+auth();
 
 // Add Department
 $success_message = '';

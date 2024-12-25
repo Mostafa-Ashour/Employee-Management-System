@@ -6,6 +6,7 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/dbconfig.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
+auth();
 
 $departments = fetch_departments($con);
 
@@ -45,7 +46,7 @@ if (isset($_GET['edit'])) {
         if (string_validation($salary, 1)) {
             $errors[] = "Employee Salary Is Required.";
         }
-        if (image_validation($_FILES['image']['name'], $_FILES['image']['size'], 3) === true && !empty($_FILES['image']['name']) === true) {
+        if (!empty($_FILES['image']['name']) === true && image_validation($_FILES['image']['name'], $_FILES['image']['size'], 3) === true) {
             $errors[] = "Image Is Required And Must Be Less Than 3MB.";
         }
 

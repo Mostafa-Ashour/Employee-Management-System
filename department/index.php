@@ -7,6 +7,8 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
+auth(2);
+
 // Deleting A Department
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
@@ -35,7 +37,9 @@ $select = fetch_departments($con);
                     <tr>
                         <th>#</th>
                         <th>Department</th>
-                        <th>Action</th>
+                        <?php if ($_SESSION['user']['role'] == 1): ?>
+                            <th>Action</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,10 +47,12 @@ $select = fetch_departments($con);
                         <tr>
                             <td><?= ($index + 1) ?></td>
                             <td><?= $department['department'] ?></td>
-                            <td>
-                                <a href="edit.php?edit=<?= $department['id'] ?>" class="btn btn-warning">Edit</a>
-                                <a href="?delete=<?= $department['id'] ?>" class="btn btn-danger">Delete</a>
-                            </td>
+                            <?php if ($_SESSION['user']['role'] == 1): ?>
+                                <td>
+                                    <a href="edit.php?edit=<?= $department['id'] ?>" class="btn btn-warning">Edit</a>
+                                    <a href="?delete=<?= $department['id'] ?>" class="btn btn-danger">Delete</a>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

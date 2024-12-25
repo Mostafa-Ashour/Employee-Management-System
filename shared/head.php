@@ -2,6 +2,8 @@
 // Core
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 
+session_start();
+
 ?>
 
 <!DOCTYPE html>

@@ -7,6 +7,7 @@ require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/app/functions.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/head.php";
 require_once "C:/xampp/htdocs/BackEnd_Projects/Demo Project/shared/navbar.php";
 
+auth();
 // Add Employee
 
 $departments = fetch_departments($con);
@@ -19,6 +20,8 @@ if (isset($_POST['submit'])) {
     // Get Data From Add Post Request, Then Filter Them.
     $name = filter_string($_POST['name']);
     $email = filter_string($_POST['email']);
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $role = $_POST['role'];
     $phone = filter_string($_POST['phone']);
     $salary = filter_string($_POST['salary']);
     $department_id = filter_string($_POST['department']);
@@ -31,6 +34,9 @@ if (isset($_POST['submit'])) {
     // Validate Empty and Minimum Size Conditions On Data
     if (string_validation($name, 8)) {
         $errors[] = "Employee Name Is Required And It Must Be At Least 8 Characters.";
+    }
+    if (string_validation($_POST['password'], 8)) {
+        $errors[] = "Employee Password Is Required And It Must Be At Least 8 Characters.";
     }
     if (string_validation($email, 2)) {
         $errors[] = "Employee Email Is Required.";
@@ -50,7 +56,7 @@ if (isset($_POST['submit'])) {
     // Else ==> Display Errors Array For Data Modification. 
     if (empty($errors)) {
         // New Employee Data Insertion
-        $insert_query = "INSERT INTO `employees` VALUES (NULL, '$name', '$email', '$phone', $salary, '$img_name' , $department_id)";
+        $insert_query = "INSERT INTO `employees` VALUES (NULL, '$name', '$email', '$password', $role,  '$phone', $salary, '$img_name' , $department_id)";
         try {
             $insert = mysqli_query($con, $insert_query);
             $success_message = "$name Added Successfully.";
@@ -101,6 +107,18 @@ if (isset($_POST['submit'])) {
                     <label for="email" class="form-label">Email:</label>
                     <input type="email" placeholder="Email" name="email" id="email" class="form-control">
                 </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" placeholder="Password" name="password" id="password" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role:</label>
+                    <select name="role" id="role" class="form-select">
+                        <option value="1">Admin</option>
+                        <option value="2">User</option>
+                    </select>
+                </div>
+
                 <div class="mb-3">
                     <label for="phone" class="form-label">Phone:</label>
                     <input type="phone" placeholder="Phone" name="phone" id="phone" class="form-control">
