@@ -19,6 +19,17 @@ The Employee Management System is a web application designed to manage employee 
 
 ## Installation
 
-1. **Clone the Repository:**
+### 1. **Clone the Repository:**
    ```bash
    git clone https://github.com/Mostafa-Ashour/Final-Demo.git
+
+### 2. **Navigate to the Directory**  
+   Move into the project folder:  
+   ```bash
+   cd Final-Demo
+
+### 3. **Set Up the Database  
+- Create a MySQL database named `employee_management`.  
+- Import the SQL file located in the `database/` folder to set up the necessary tables.
+
+
