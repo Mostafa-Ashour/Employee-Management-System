@@ -1,6 +1,6 @@
 <?php
 
-define('base_url', 'http://localhost/BackEnd_Projects/Employee-Management-System/');
+define('base_url', 'http://localhost/Employee-Management-System/');
 
 function url($_path = null)
 {

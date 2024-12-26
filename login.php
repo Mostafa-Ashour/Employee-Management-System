@@ -1,11 +1,11 @@
 <?php
 // Core
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/dbconfig.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/functions.php";
+require_once "C://xampp/htdocs/Employee-Management-System/app/dbconfig.php";
+require_once "C://xampp/htdocs/Employee-Management-System/app/functions.php";
 
 // UI
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/head.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/navbar.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/head.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/navbar.php";
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
@@ -59,7 +59,7 @@ if (isset($_POST['login'])) {
 
 <?php
 
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/scripts.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/footer.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/scripts.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/footer.php";
 
 ?>

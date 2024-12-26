@@ -1,6 +1,6 @@
 <?php
 // Core
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/functions.php";
+require_once "C://xampp/htdocs/Employee-Management-System/app/functions.php";
 
 session_start();
 

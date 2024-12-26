@@ -1,10 +1,10 @@
 <?php
 // Core
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/app/dbconfig.php";
+require_once "C://xampp/htdocs/Employee-Management-System/app/dbconfig.php";
 
 // UI
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/head.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/navbar.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/head.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/navbar.php";
 
 auth();
 
@@ -35,33 +35,22 @@ if (isset($_GET['edit'])) {
         $img_tmp_name = $_FILES['image']['tmp_name'];
         $location = "./uploads/" . $img_name;
 
-        // Validate Empty and Minimum Size Conditions On Data
-        if (string_validation($name, 8)) {
-            $errors[] = "Employee Name Is Required And It Must Be At Least 8 Characters.";
-        }
-        if (string_validation($email, 2)) {
-            $errors[] = "Employee Email Is Required.";
-        }
-        if (string_validation($phone, 11)) {
-            $errors[] = "Employee Phone Is Required.";
-        }
-        if (string_validation($salary, 1)) {
-            $errors[] = "Employee Salary Is Required.";
-        }
-        if (!empty($_FILES['image']['name']) === true && image_validation($_FILES['image']['name'], $_FILES['image']['size'], 3) === true) {
-            $errors[] = "Image Is Required And Must Be Less Than 3MB.";
-        }
-
         // Check Changed Data
         $update_fields = [];
         if ($row['name'] !== $name) {
+            if (string_validation($name, 8)) {
+                $errors[] = "Employee Name Is Required And It Must Be At Least 8 Characters.";
+            }
             $update_fields[] = "`name`='$name'";
         }
         if ($row['email'] !== $email) {
+            if (string_validation($email, 2)) {
+                $errors[] = "Employee Email Is Required.";
+            }
             $update_fields[] = "`email`='$email'";
         }
         $password_verify = password_verify($password, $row['password']);
-        if (!$password_verify) {
+        if (!$password_verify && !empty($_POST['password'])) {
             if (string_validation($_POST['password'], 8)) {
                 $errors[] = "Employee Password Is Required And It Must Be At Least 8 Characters.";
             }
@@ -71,13 +60,22 @@ if (isset($_GET['edit'])) {
             $update_fields[] = "`roles`='$role'";
         }
         if ($row['phone'] !== $phone) {
+            if (string_validation($phone, 11)) {
+                $errors[] = "Employee Phone Is Required.";
+            }
             $update_fields[] = "`phone`='$phone'";
         }
         if ($row['salary'] != $salary) {
+            if (string_validation($salary, 1)) {
+                $errors[] = "Employee Salary Is Required.";
+            }
             $update_fields[] = "`salary`=$salary";
         }
         if (!empty($_FILES['image']['name'])) {
             // print_r($_FILES['image']) . "<br>";
+            if (!empty($_FILES['image']['name']) === true && image_validation($_FILES['image']['name'], $_FILES['image']['size'], 3) === true) {
+                $errors[] = "Image Is Required And Must Be Less Than 3MB.";
+            }
             $update_fields[] = "`image`='$img_name'";
         }
         if ($row['department_id'] != $department_id) {
@@ -150,7 +148,7 @@ if (isset($_GET['edit'])) {
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password:</label>
-                    <input type="text" name="password" id="password" class="form-control">
+                    <input type="password" name="password" id="password" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="role" class="form-label">Role:</label>
@@ -199,7 +197,7 @@ if (isset($_GET['edit'])) {
 
 <?php
 
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/scripts.php";
-require_once "C:/xampp/htdocs/BackEnd_Projects/Employee-Management-System/shared/footer.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/scripts.php";
+require_once "C://xampp/htdocs/Employee-Management-System/shared/footer.php";
 
 ?>
